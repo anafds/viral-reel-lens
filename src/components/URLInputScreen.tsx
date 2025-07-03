@@ -34,7 +34,7 @@ const URLInputScreen = ({ onSubmit }: URLInputScreenProps) => {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <header className="px-8 py-6 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto flex justify-center">
           <img 
             src="/lovable-uploads/d68b8b84-5d85-40c7-9630-471dc9d0501b.png" 
             alt="BuscarID" 
