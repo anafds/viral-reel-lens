@@ -104,25 +104,6 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
               </div>
             </div>
           </div>
-          
-          <div className="grid lg:grid-cols-3 gap-6">
-            <MetricCard
-              title="Engajamento"
-              value="15.3%"
-              description="Muito acima da média"
-              variant="primary"
-            />
-            <MetricCard
-              title="Visualizações"
-              value="45.2K"
-              description="Alta performance"
-            />
-            <MetricCard
-              title="Taxa de Salvamento"
-              value="3.4%"
-              description="Conteúdo de valor"
-            />
-          </div>
         </div>
 
         {/* Detailed Analysis Tabs - Cleaner */}
