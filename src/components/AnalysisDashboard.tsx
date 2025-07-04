@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Download, 
   ArrowLeft, 
   Target, 
   Eye, 
@@ -14,7 +13,8 @@ import {
   Zap,
   TrendingUp,
   Star,
-  BarChart3
+  BarChart3,
+  Heart
 } from 'lucide-react';
 
 interface AnalysisDashboardProps {
@@ -24,17 +24,6 @@ interface AnalysisDashboardProps {
 
 const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
   const [activeTab, setActiveTab] = useState('overview');
-
-  const generatePDF = () => {
-    const link = document.createElement('a');
-    link.href = '#';
-    link.download = 'analise-detalhada-reel-buscarid.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    alert('PDF da análise detalhada gerado com sucesso! 📄');
-  };
 
   const MetricCard = ({ title, value, description, variant = "default" }: any) => (
     <Card className={`${variant === 'primary' ? 'bg-[#FF6B47] text-white' : 'bg-white'} hover:shadow-md transition-shadow`}>
@@ -86,36 +75,42 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
             className="h-8"
           />
           
-          <Button
-            onClick={generatePDF}
-            className="bg-[#FF6B47] hover:bg-[#ff5a3d] text-white"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Exportar PDF
-          </Button>
+          <div className="w-[100px]"></div>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Score Overview - Simplified */}
+        {/* Reel Info Section */}
         <div className="mb-8">
           <div className="text-center mb-6">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Análise do Reel</h1>
             <p className="text-gray-600">Resultado da análise completa do seu conteúdo</p>
           </div>
           
-          <div className="grid lg:grid-cols-4 gap-6">
-            <MetricCard
-              title="Score Viral"
-              value="92/100"
-              description="Excelente potencial"
-              variant="primary"
-            />
+          {/* Reel Details */}
+          <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-lg font-semibold text-gray-900 mb-1">@{data.username || 'usuario_exemplo'}</p>
+                <p className="text-gray-600 text-sm leading-relaxed max-w-2xl">
+                  {data.caption || 'Esta é a legenda do reel que foi analisado. Aqui você pode ver o texto original que acompanhou o vídeo quando foi publicado.'}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 bg-red-50 px-4 py-2 rounded-lg">
+                <Heart className="w-5 h-5 text-red-500 fill-current" />
+                <span className="text-xl font-bold text-red-600">{data.likes || '45.2K'}</span>
+                <span className="text-sm text-red-500">likes</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="grid lg:grid-cols-3 gap-6">
             <MetricCard
               title="Engajamento"
               value="15.3%"
               description="Muito acima da média"
+              variant="primary"
             />
             <MetricCard
               title="Visualizações"
@@ -173,17 +168,9 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
                     </ul>
                   </div>
                   
-                  <div className="flex justify-between items-center py-2 border-b">
-                    <span className="text-sm">Likes:</span>
-                    <span className="font-medium text-[#FF6B47]">45.2K</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b">
-                    <span className="text-sm">Comentários:</span>
-                    <span className="font-medium text-[#FF6B47]">2.3K</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="text-sm">Compartilhamentos:</span>
-                    <span className="font-medium text-[#FF6B47]">890</span>
+                  <div className="text-center p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-600 mb-2">Status do Conteúdo</p>
+                    <p className="text-2xl font-bold text-[#FF6B47]">Viral</p>
                   </div>
                 </div>
               </InsightCard>
@@ -215,17 +202,17 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
                 <div className="space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <p className="text-sm text-gray-600 mb-2">Gancho Identificado:</p>
-                    <p className="font-medium text-gray-900">"{data.copyAnalysis.hook}"</p>
+                    <p className="font-medium text-gray-900">"{data.copyAnalysis?.hook || 'Você não vai acreditar no que aconteceu...'}"</p>
                   </div>
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Estratégia:</span>
-                    <Badge className="bg-[#FF6B47] text-white">{data.copyAnalysis.hookType}</Badge>
+                    <Badge className="bg-[#FF6B47] text-white">{data.copyAnalysis?.hookType || 'Curiosidade'}</Badge>
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Score do Gancho:</span>
-                    <span className="font-bold text-[#FF6B47]">{data.copyAnalysis.hookScore}/100</span>
+                  <div className="text-center p-3 bg-green-50 rounded-lg">
+                    <p className="text-sm text-green-600">Efetividade do Gancho</p>
+                    <p className="font-bold text-green-800">Muito Alta</p>
                   </div>
                 </div>
               </InsightCard>
@@ -234,12 +221,12 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
                 <div className="space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <p className="text-sm text-gray-600 mb-2">CTA Identificado:</p>
-                    <p className="font-medium text-gray-900">"{data.copyAnalysis.cta}"</p>
+                    <p className="font-medium text-gray-900">"{data.copyAnalysis?.cta || 'Comenta aí embaixo o que você achou!'}"</p>
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Efetividade:</span>
-                    <span className="font-bold text-[#FF6B47]">{data.copyAnalysis.ctaScore}/100</span>
+                  <div className="text-center p-3 bg-blue-50 rounded-lg">
+                    <p className="text-sm text-blue-600">Efetividade do CTA</p>
+                    <p className="font-bold text-blue-800">Alta</p>
                   </div>
                 </div>
               </InsightCard>
@@ -252,37 +239,31 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Iluminação:</span>
-                    <Badge className="bg-yellow-500 text-white">{data.visualAnalysis.lighting}</Badge>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Score de Iluminação:</span>
-                    <span className="font-bold text-[#FF6B47]">{data.visualAnalysis.lightingScore}/100</span>
+                    <Badge className="bg-yellow-500 text-white">{data.visualAnalysis?.lighting || 'Excelente'}</Badge>
                   </div>
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm">Composição:</span>
-                    <span className="font-bold text-[#FF6B47]">{data.visualAnalysis.compositionScore}/100</span>
+                    <Badge className="bg-green-500 text-white">Muito Boa</Badge>
+                  </div>
+                  
+                  <div className="text-center p-3 bg-green-50 rounded-lg">
+                    <p className="text-sm text-green-600">Qualidade Geral</p>
+                    <p className="font-bold text-green-800">Profissional</p>
                   </div>
                 </div>
               </InsightCard>
 
-              <InsightCard title="Paleta de Cores" icon={Palette}>
+              <InsightCard title="Estilo Visual" icon={Palette}>
                 <div className="space-y-4">
-                  <div className="flex gap-3">
-                    {data.visualAnalysis.colors.map((color: string, index: number) => (
-                      <div
-                        key={index}
-                        className="w-10 h-10 rounded-lg border shadow-sm"
-                        style={{ backgroundColor: color }}
-                        title={color}
-                      />
-                    ))}
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600 mb-2">Estilo Dominante:</p>
+                    <p className="font-medium text-gray-900">Moderno e Vibrante</p>
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Harmonia:</span>
-                    <span className="font-bold text-[#FF6B47]">{data.visualAnalysis.colorHarmony}/100</span>
+                  <div className="text-center p-3 bg-purple-50 rounded-lg">
+                    <p className="text-sm text-purple-600">Harmonia Visual</p>
+                    <p className="font-bold text-purple-800">Excelente</p>
                   </div>
                 </div>
               </InsightCard>
@@ -295,17 +276,12 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
                 <div className="space-y-4">
                   <div className="bg-green-50 p-4 rounded-lg">
                     <h4 className="font-medium text-green-800 mb-2">🎵 Som Trending</h4>
-                    <p className="text-sm text-green-700">{data.audioAnalysis.musicTrend}</p>
+                    <p className="text-sm text-green-700">{data.audioAnalysis?.musicTrend || 'Áudio em alta no momento da publicação'}</p>
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Score Musical:</span>
-                    <span className="font-bold text-[#FF6B47]">{data.audioAnalysis.musicScore}/100</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Qualidade do Áudio:</span>
-                    <span className="font-bold text-[#FF6B47]">{data.audioAnalysis.audioScore}/100</span>
+                  <div className="text-center p-3 bg-green-50 rounded-lg">
+                    <p className="text-sm text-green-600">Qualidade do Áudio</p>
+                    <p className="font-bold text-green-800">Excelente</p>
                   </div>
                 </div>
               </InsightCard>
@@ -330,18 +306,9 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
         {/* Simplified Action Buttons */}
         <div className="flex justify-center gap-4 mt-8 pt-8 border-t">
           <Button
-            onClick={generatePDF}
+            onClick={onBackToStart}
             size="lg"
             className="bg-[#FF6B47] hover:bg-[#ff5a3d] text-white px-8"
-          >
-            <Download className="w-5 h-5 mr-2" />
-            Baixar Análise Completa
-          </Button>
-          <Button
-            onClick={onBackToStart}
-            variant="outline"
-            size="lg"
-            className="px-8"
           >
             Analisar Novo Reel
           </Button>
