@@ -22,7 +22,8 @@ import {
   Share2,
   BookOpen,
   Star,
-  Mic
+  Mic,
+  BarChart3
 } from 'lucide-react';
 
 interface AnalysisDashboardProps {
@@ -31,7 +32,7 @@ interface AnalysisDashboardProps {
 }
 
 const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
-  const [activeTab, setActiveTab] = useState('copy');
+  const [activeTab, setActiveTab] = useState('overview');
 
   const generatePDF = () => {
     const link = document.createElement('a');
@@ -114,62 +115,151 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-8 py-8">
-        {/* Overview Cards */}
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-[#FF6B47] to-[#ff5a3d] text-white">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Zap className="w-8 h-8" />
-                <span className="text-2xl font-bold">VIRAL</span>
-              </div>
-              <h3 className="font-semibold">Potencial</h3>
-              <p className="text-orange-100 text-sm">Alta capacidade de viralização</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Target className="w-8 h-8 text-[#FF6B47]" />
-                <Badge variant="secondary" className="bg-[#FF6B47] text-white">FORTE</Badge>
-              </div>
-              <h3 className="font-semibold text-gray-900">Gancho</h3>
-              <p className="text-gray-600 text-sm">Estratégia de abertura</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Eye className="w-8 h-8 text-blue-500" />
-                <Badge variant="secondary" className="bg-blue-500 text-white">EXCELENTE</Badge>
-              </div>
-              <h3 className="font-semibold text-gray-900">Visual</h3>
-              <p className="text-gray-600 text-sm">Qualidade e composição</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Users className="w-8 h-8 text-green-500" />
-                <Badge variant="secondary" className="bg-green-500 text-white">AUTÊNTICO</Badge>
-              </div>
-              <h3 className="font-semibold text-gray-900">Criador</h3>
-              <p className="text-gray-600 text-sm">Presença e carisma</p>
-            </CardContent>
-          </Card>
-        </div>
-
         {/* Detailed Analysis Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview">Visão Geral</TabsTrigger>
             <TabsTrigger value="copy">Copy</TabsTrigger>
             <TabsTrigger value="visual">Visual</TabsTrigger>
             <TabsTrigger value="audio">Áudio</TabsTrigger>
-            <TabsTrigger value="creator">Criador</TabsTrigger>
-            <TabsTrigger value="synthesis">Síntese</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="overview" className="space-y-6">
+            {/* Overview Cards */}
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6 mb-8">
+              <Card className="bg-gradient-to-br from-[#FF6B47] to-[#ff5a3d] text-white">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <Zap className="w-8 h-8" />
+                    <span className="text-2xl font-bold">VIRAL</span>
+                  </div>
+                  <h3 className="font-semibold">Potencial</h3>
+                  <p className="text-orange-100 text-sm">Alta capacidade de viralização</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <Target className="w-8 h-8 text-[#FF6B47]" />
+                    <Badge variant="secondary" className="bg-[#FF6B47] text-white">FORTE</Badge>
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Gancho</h3>
+                  <p className="text-gray-600 text-sm">Estratégia de abertura</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <Eye className="w-8 h-8 text-blue-500" />
+                    <Badge variant="secondary" className="bg-blue-500 text-white">EXCELENTE</Badge>
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Visual</h3>
+                  <p className="text-gray-600 text-sm">Qualidade e composição</p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <Music className="w-8 h-8 text-green-500" />
+                    <Badge variant="secondary" className="bg-green-500 text-white">TRENDING</Badge>
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Áudio</h3>
+                  <p className="text-gray-600 text-sm">Som viral e qualidade</p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-6">
+              <InsightCard title="Resumo Executivo" icon={BarChart3} variant="highlight">
+                <div className="space-y-4">
+                  <HighlightBox 
+                    title="Performance Geral" 
+                    content="Este reel demonstra excelente potencial viral com elementos estratégicos bem executados em todas as dimensões analisadas." 
+                    type="success"
+                  />
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-3 bg-green-50 rounded-lg">
+                      <h4 className="font-semibold text-green-800">Score Viral</h4>
+                      <div className="text-2xl font-bold text-[#FF6B47]">92/100</div>
+                    </div>
+                    <div className="text-center p-3 bg-blue-50 rounded-lg">
+                      <h4 className="font-semibold text-blue-800">Engajamento</h4>
+                      <div className="text-2xl font-bold text-[#FF6B47]">Alto</div>
+                    </div>
+                  </div>
+                </div>
+              </InsightCard>
+
+              <InsightCard title="Métricas de Performance" icon={TrendingUp}>
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Likes:</span>
+                      <span className="text-[#FF6B47] font-bold">45.2K</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Comentários:</span>
+                      <span className="text-[#FF6B47] font-bold">2.3K</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Compartilhamentos:</span>
+                      <span className="text-[#FF6B47] font-bold">890</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">Salvamentos:</span>
+                      <span className="text-[#FF6B47] font-bold">1.6K</span>
+                    </div>
+                  </div>
+                  
+                  <HighlightBox 
+                    title="Taxa de Engajamento" 
+                    content="15.3% - Muito acima da média do Instagram (1-3%)" 
+                    type="success"
+                  />
+                </div>
+              </InsightCard>
+
+              <InsightCard title="Fatores de Sucesso" icon={Star}>
+                <div className="space-y-4">
+                  <HighlightBox 
+                    title="Combinação Perfeita" 
+                    content="Gancho forte + qualidade técnica + áudio trending + timing ideal = fórmula para viralização." 
+                    type="success"
+                  />
+                  
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Elementos Únicos:</h4>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      <li>• Abordagem contraintuitiva</li>
+                      <li>• Qualidade profissional</li>
+                      <li>• Timing de revelação perfeito</li>
+                      <li>• Aproveitamento de tendências</li>
+                    </ul>
+                  </div>
+                </div>
+              </InsightCard>
+
+              <InsightCard title="Recomendações Estratégicas" icon={Lightbulb}>
+                <div className="space-y-4">
+                  <HighlightBox 
+                    title="Para Replicação" 
+                    content="Manter estrutura narrativa e qualidade técnica em futuros conteúdos para garantir consistência." 
+                    type="info"
+                  />
+                  
+                  <HighlightBox 
+                    title="Oportunidades" 
+                    content="Incluir CTAs mais específicos e elementos de gamificação para aumentar interação." 
+                    type="warning"
+                  />
+                </div>
+              </InsightCard>
+            </div>
+          </TabsContent>
 
           <TabsContent value="copy" className="space-y-6">
             <div className="grid lg:grid-cols-2 gap-6">
@@ -445,206 +535,6 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
               </InsightCard>
             </div>
           </TabsContent>
-
-          <TabsContent value="creator" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              <InsightCard title="Carisma do Criador" icon={Users} variant="highlight">
-                <div className="space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-medium mb-2">Perfil do Criador:</h4>
-                    <p className="text-gray-700">{data.characterAnalysis.mainCharacter}</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center p-3 bg-blue-50 rounded-lg">
-                      <h4 className="font-semibold text-blue-800">Expressividade</h4>
-                      <div className="text-2xl font-bold text-[#FF6B47]">{data.characterAnalysis.expressionScore}/100</div>
-                    </div>
-                    <div className="text-center p-3 bg-green-50 rounded-lg">
-                      <h4 className="font-semibold text-green-800">Carisma</h4>
-                      <div className="text-2xl font-bold text-[#FF6B47]">{data.characterAnalysis.charisma}/100</div>
-                    </div>
-                    <div className="text-center p-3 bg-purple-50 rounded-lg">
-                      <h4 className="font-semibold text-purple-800">Autenticidade</h4>
-                      <div className="text-2xl font-bold text-[#FF6B47]">{data.characterAnalysis.authenticity}/100</div>
-                    </div>
-                  </div>
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Presença e Autenticidade" icon={Heart}>
-                <div className="space-y-4">
-                  <HighlightBox 
-                    title="Genuinidade" 
-                    content="Criador transmite autenticidade natural, sem forçar performance excessiva." 
-                    type="success"
-                  />
-                  
-                  <HighlightBox 
-                    title="Vulnerabilidade" 
-                    content="Mostra aspectos humanos quando apropriado, criando conexão emocional." 
-                    type="info"
-                  />
-                  
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Consistência:</h4>
-                    <p className="text-sm text-gray-600">Perfeitamente alinhado com persona estabelecida</p>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Relatabilidade:</h4>
-                    <p className="text-sm text-gray-600">Alto nível de identificação com público-alvo</p>
-                  </div>
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Habilidade de Comunicação" icon={MessageSquare}>
-                <div className="space-y-4">
-                  <HighlightBox 
-                    title="Storytelling" 
-                    content="Excelente capacidade de estruturar e contar histórias de forma envolvente." 
-                    type="success"
-                  />
-                  
-                  <HighlightBox 
-                    title="Timing" 
-                    content="Domínio perfeito de pausas, ritmo e momentos de impacto." 
-                    type="success"
-                  />
-                  
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Adaptação ao Formato:</h4>
-                    <p className="text-sm text-gray-600">Comunicação otimizada para formato vertical e curto</p>
-                  </div>
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Conexão com Audiência" icon={Share2}>
-                <div className="space-y-4">
-                  <HighlightBox 
-                    title="Contato Visual" 
-                    content="Uso estratégico do olhar direto para câmera criando intimidade." 
-                    type="success"
-                  />
-                  
-                  <HighlightBox 
-                    title="Engajamento" 
-                    content="Convida naturalmente à interação através da comunicação." 
-                    type="info"
-                  />
-                </div>
-              </InsightCard>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="synthesis" className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              <InsightCard title="Potencial Viral" icon={Zap} variant="highlight">
-                <div className="space-y-4">
-                  <HighlightBox 
-                    title="Shareability" 
-                    content="Conteúdo altamente compartilhável devido à combinação de valor prático e entretenimento." 
-                    type="success"
-                  />
-                  
-                  <HighlightBox 
-                    title="Gatilhos Emocionais" 
-                    content="Ativa curiosidade, surpresa e esperança - trio poderoso para viralização." 
-                    type="success"
-                  />
-                  
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Memorabilidade:</h4>
-                    <p className="text-sm text-gray-600">Informação principal fica na memória após assistir</p>
-                  </div>
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Público-Alvo Identificado" icon={Target}>
-                <div className="space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-medium mb-2">Perfil Demográfico:</h4>
-                    <p className="text-sm text-gray-600">Jovens adultos 25-40 anos, interessados em desenvolvimento pessoal</p>
-                  </div>
-                  
-                  <HighlightBox 
-                    title="Necessidades Atendidas" 
-                    content="Resolve problema específico de falta de resultados rápidos em objetivos pessoais." 
-                    type="info"
-                  />
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Elementos de Destaque" icon={Star}>
-                <div className="space-y-4">
-                  <HighlightBox 
-                    title="Diferenciadores Únicos" 
-                    content="Abordagem contraintuitiva que quebra crenças limitantes do público." 
-                    type="success"
-                  />
-                  
-                  <HighlightBox 
-                    title="Execução Exemplar" 
-                    content="Qualidade técnica profissional em todos os aspectos - referência na categoria." 
-                    type="success"
-                  />
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Oportunidades de Melhoria" icon={TrendingUp}>
-                <div className="space-y-4">
-                  <HighlightBox 
-                    title="Call to Action" 
-                    content="Poderia incluir CTA mais específico para direcionamento de tráfego." 
-                    type="warning"
-                  />
-                  
-                  <HighlightBox 
-                    title="Aproveitamento de Tendências" 
-                    content="Oportunidade de incluir elementos visuais trending mais específicos." 
-                    type="info"
-                  />
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Recomendações Estratégicas" icon={Lightbulb}>
-                <div className="space-y-4">
-                  <HighlightBox 
-                    title="Para Replicação" 
-                    content="Manter estrutura de gancho + desenvolvimento + prova social em futuros conteúdos." 
-                    type="success"
-                  />
-                  
-                  <HighlightBox 
-                    title="Para Escala" 
-                    content="Sistematizar processo de criação mantendo qualidade técnica consistente." 
-                    type="info"
-                  />
-                </div>
-              </InsightCard>
-
-              <InsightCard title="Insights Finais" icon={Lightbulb}>
-                <div className="space-y-4">
-                  <div className="bg-[#FF6B47] bg-opacity-10 p-4 rounded-lg">
-                    <h4 className="font-semibold text-[#FF6B47] mb-2">🔥 Fatores de Sucesso:</h4>
-                    <ul className="text-sm text-gray-700 space-y-1">
-                      <li>• Gancho provocativo e relevante</li>
-                      <li>• Qualidade técnica profissional</li>
-                      <li>• Autenticidade do criador</li>
-                      <li>• Timing perfeito de revelação</li>
-                      <li>• Valor prático entregue</li>
-                    </ul>
-                  </div>
-                  
-                  <HighlightBox 
-                    title="Próximos Passos" 
-                    content="Implementar sistema de análise prévia para garantir elementos virais em 100% dos conteúdos." 
-                    type="info"
-                  />
-                </div>
-              </InsightCard>
-            </div>
-          </TabsContent>
         </Tabs>
 
         {/* Action Buttons */}
@@ -672,4 +562,3 @@ const AnalysisDashboard = ({ data, onBackToStart }: AnalysisDashboardProps) => {
 };
 
 export default AnalysisDashboard;
-
